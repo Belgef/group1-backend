@@ -53,7 +53,7 @@ namespace MarketplaceBackend.Controllers
             var response = new
             {
                 access_token = encodedJwt,
-                username = identity.Name
+                email = identity.Name
             };
             return Ok(response);
         }

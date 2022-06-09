@@ -27,8 +27,8 @@ namespace MarketplaceBackend.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             byte[] salt1 = PasswordEncoder.GenerateSalt(), salt2 = PasswordEncoder.GenerateSalt();
-            string hash1 = PasswordEncoder.HashPassword("12345", salt1);
-            string hash2 = PasswordEncoder.HashPassword("55555", salt2);
+            string hash1 = PasswordEncoder.HashPassword("A12345", salt1);
+            string hash2 = PasswordEncoder.HashPassword("U55555", salt2);
 
             modelBuilder.Entity<User>().HasData(new User[]
             {
