@@ -22,10 +22,10 @@ namespace MarketplaceBackend.Controllers
             _config = configuration;
         }
 
-        [HttpPost("/token")]
-        public IActionResult Token([FromForm] string email, [FromForm] string password)
+        [HttpPost("/login")]
+        public IActionResult Login([FromBody] UserLoginDto user)
         {
-            var identity = GetIdentity(email, password);
+            var identity = GetIdentity(user.Email, user.Password);
             if (identity == null)
             {
                 return BadRequest(new { errorText = "Invalid email or password." });
@@ -52,7 +52,6 @@ namespace MarketplaceBackend.Controllers
             };
             return Ok(response);
         }
-
         private ClaimsIdentity GetIdentity(string email, string password)
         {
             User user = _context.Users.Include(e => e.Role).FirstOrDefault(x => x.Email == email && x.Password == password);
@@ -60,14 +59,28 @@ namespace MarketplaceBackend.Controllers
             {
                 List<Claim> claims = new(){
                     new("user_id", user.Id.ToString()),
+                    new("fname", user.FirstName),
+                    new("lname", user.LastName),
                     new(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                    new(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
+                    new(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString())
                 };
                 ClaimsIdentity claimsIdentity = new(claims, "Token",
                     ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
                 return claimsIdentity;
             }
             return null;
+        }
+
+        [HttpPost("/register")]
+        public async Task<IActionResult> Register([FromBody] UserRegisterDto user)
+        {
+            if(_context.Users.Any(e=>e.Email==user.Email))
+            {
+                return BadRequest(new { errorText = "User with this email already exists."});
+            }
+            _context.Users.Add(new() { FirstName=user.FirstName, LastName=user.LastName, Email=user.Email, Password=user.Password, Role=Role.User});
+            await _context.SaveChangesAsync();
+            return Ok();
         }
     }
 }
