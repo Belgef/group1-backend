@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MarketplaceBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220609100748_Initial")]
+    [Migration("20220609142942_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,34 +156,6 @@ namespace MarketplaceBackend.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("MarketplaceBackend.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "admin"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "user"
-                        });
-                });
-
             modelBuilder.Entity("MarketplaceBackend.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -204,12 +176,10 @@ namespace MarketplaceBackend.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int>("Role")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
 
@@ -221,7 +191,7 @@ namespace MarketplaceBackend.Migrations
                             FirstName = "Jim",
                             LastName = "Carrey",
                             Password = "12345",
-                            RoleId = 1
+                            Role = 0
                         },
                         new
                         {
@@ -230,7 +200,7 @@ namespace MarketplaceBackend.Migrations
                             FirstName = "Simon",
                             LastName = "Cowell",
                             Password = "55555",
-                            RoleId = 2
+                            Role = 1
                         });
                 });
 
@@ -281,17 +251,6 @@ namespace MarketplaceBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("MarketplaceBackend.Models.User", b =>
-                {
-                    b.HasOne("MarketplaceBackend.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("MarketplaceBackend.Models.Cart", b =>
