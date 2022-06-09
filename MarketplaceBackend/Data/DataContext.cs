@@ -24,7 +24,17 @@ namespace MarketplaceBackend.Data
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Role> Roles { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            byte[] salt1 = PasswordEncoder.GenerateSalt(), salt2 = PasswordEncoder.GenerateSalt();
+            string hash1 = PasswordEncoder.HashPassword("A12345", salt1);
+            string hash2 = PasswordEncoder.HashPassword("U55555", salt2);
 
+            modelBuilder.Entity<User>().HasData(new User[]
+            {
+                new(){ Id = 1, FirstName="Jim", LastName="Carrey", Email="admin@gmail.com", Salt=Convert.ToBase64String(salt1), Hash=hash1, Role=Role.Admin },
+                new(){ Id = 2, FirstName="Simon", LastName="Cowell", Email="qwerty@gmail.com", Salt=Convert.ToBase64String(salt2), Hash=hash2, Role=Role.User }
+            });
+        }
     }
 }
