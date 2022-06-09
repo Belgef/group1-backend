@@ -5,7 +5,7 @@ namespace MarketplaceBackend.Data
 {
     public class DataContext: DbContext
     {
-        public DataContext() : base()
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
         }
@@ -23,5 +23,8 @@ namespace MarketplaceBackend.Data
         public DbSet<OrderProduct> OrderProducts { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Role> Roles { get; set; }
+
     }
 }

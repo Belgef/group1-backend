@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        string Name { get; set; }
+        public string Name { get; set; }
 
         // M2M
         public string ImageURL { get; set; }

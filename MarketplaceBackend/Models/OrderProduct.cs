@@ -10,7 +10,7 @@
 
         public Order Order { get; set; }
 
-        int ProductId { get; set; }
+        public int ProductId { get; set; }
 
         public Product Product { get; set; }
     }
