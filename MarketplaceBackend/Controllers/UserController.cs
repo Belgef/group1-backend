@@ -54,7 +54,7 @@ namespace MarketplaceBackend.Controllers
         }
         private ClaimsIdentity GetIdentity(string email, string password)
         {
-            User user = _context.Users.Include(e => e.Role).FirstOrDefault(x => x.Email == email && x.Password == password);
+            User user = _context.Users.ToList().FirstOrDefault(x => x.Email == email && PasswordEncoder.ValidatePassword(password, x.Hash, x.Salt));
             if (user != null)
             {
                 List<Claim> claims = new(){
@@ -70,7 +70,7 @@ namespace MarketplaceBackend.Controllers
             }
             return null;
         }
-
+        
         [HttpPost("/register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto user)
         {
@@ -78,7 +78,10 @@ namespace MarketplaceBackend.Controllers
             {
                 return BadRequest(new { errorText = "User with this email already exists."});
             }
-            _context.Users.Add(new() { FirstName=user.FirstName, LastName=user.LastName, Email=user.Email, Password=user.Password, Role=Role.User});
+
+            var salt = PasswordEncoder.GenerateSalt();            
+
+            _context.Users.Add(new() { FirstName=user.FirstName, LastName=user.LastName, Email=user.Email, Hash= PasswordEncoder.HashPassword(user.Password, salt), Salt=Convert.ToBase64String(salt), Role=Role.User});
             await _context.SaveChangesAsync();
             return Ok();
         }

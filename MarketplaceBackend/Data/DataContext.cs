@@ -26,10 +26,14 @@ namespace MarketplaceBackend.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            byte[] salt1 = PasswordEncoder.GenerateSalt(), salt2 = PasswordEncoder.GenerateSalt();
+            string hash1 = PasswordEncoder.HashPassword("12345", salt1);
+            string hash2 = PasswordEncoder.HashPassword("55555", salt2);
+
             modelBuilder.Entity<User>().HasData(new User[]
             {
-                new(){ Id = 1, FirstName="Jim", LastName="Carrey", Email="admin@gmail.com", Password="12345", Role=Role.Admin },
-                new(){ Id = 2, FirstName="Simon", LastName="Cowell", Email="qwerty@gmail.com", Password="55555", Role=Role.User }
+                new(){ Id = 1, FirstName="Jim", LastName="Carrey", Email="admin@gmail.com", Salt=Convert.ToBase64String(salt1), Hash=hash1, Role=Role.Admin },
+                new(){ Id = 2, FirstName="Simon", LastName="Cowell", Email="qwerty@gmail.com", Salt=Convert.ToBase64String(salt2), Hash=hash2, Role=Role.User }
             });
         }
     }
