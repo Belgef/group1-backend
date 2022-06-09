@@ -1,4 +1,5 @@
-﻿using MarketplaceBackend.Models;
+﻿using MarketplaceBackend.Data;
+using MarketplaceBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,11 +11,12 @@ namespace MarketplaceBackend.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        // TODO: Use database context
-        private readonly List<User> users = new(){
-            new(){ FirstName="Jim", LastName="Carrey", Email="admin@gmail.com", Password="12345", Role = new(){ Name = "admin" } },
-            new(){ FirstName="Simon", LastName="Cowell", Email="qwerty@gmail.com", Password="55555", Role = new(){ Name = "user" } }
-        };
+        private DataContext _context;
+
+        public UserController(DataContext dataContext)
+        {
+            _context = dataContext;
+        }
 
         [HttpPost("/token")]
         public IActionResult Token(string email, string password)
@@ -46,7 +48,7 @@ namespace MarketplaceBackend.Controllers
 
         private ClaimsIdentity GetIdentity(string email, string password)
         {
-            User user = users.FirstOrDefault(x => x.Email == email && x.Password == password);
+            User user = _context.Users.FirstOrDefault(x => x.Email == email && x.Password == password);
             if (user != null)
             {
                 List<Claim> claims = new(){
