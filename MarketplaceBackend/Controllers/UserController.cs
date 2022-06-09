@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 
 namespace MarketplaceBackend.Controllers
 {
@@ -12,15 +13,17 @@ namespace MarketplaceBackend.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private DataContext _context;
+        private readonly DataContext _context;
+        private readonly IConfiguration _config;
 
-        public UserController(DataContext dataContext)
+        public UserController(DataContext dataContext, IConfiguration configuration)
         {
             _context = dataContext;
+            _config = configuration;
         }
 
         [HttpPost("/token")]
-        public IActionResult Token([FromForm]string email, [FromForm]string password)
+        public IActionResult Token([FromForm] string email, [FromForm] string password)
         {
             var identity = GetIdentity(email, password);
             if (identity == null)
@@ -29,14 +32,17 @@ namespace MarketplaceBackend.Controllers
             }
 
             var now = DateTime.UtcNow;
-            
+
             var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
+                    issuer: _config.GetValue<string>("Jwt:Issuer"),
+                    audience: _config.GetValue<string>("Jwt:Audience"),
                     notBefore: now,
                     claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromSeconds(AuthOptions.LIFETIME)),
-                    signingCredentials: new(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                    expires: now.Add(TimeSpan.FromSeconds(_config.GetValue<int>("Jwt:Lifetime"))),
+                    signingCredentials: new(
+                            new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config.GetValue<string>("Jwt:Key"))),
+                            SecurityAlgorithms.HmacSha256));
+
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
             var response = new
@@ -49,7 +55,7 @@ namespace MarketplaceBackend.Controllers
 
         private ClaimsIdentity GetIdentity(string email, string password)
         {
-            User user = _context.Users.Include(e=>e.Role).FirstOrDefault(x => x.Email == email && x.Password == password);
+            User user = _context.Users.Include(e => e.Role).FirstOrDefault(x => x.Email == email && x.Password == password);
             if (user != null)
             {
                 List<Claim> claims = new(){
@@ -57,7 +63,7 @@ namespace MarketplaceBackend.Controllers
                     new(ClaimsIdentity.DefaultNameClaimType, user.Email),
                     new(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
                 };
-                ClaimsIdentity claimsIdentity = new(claims, "Token", 
+                ClaimsIdentity claimsIdentity = new(claims, "Token",
                     ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
                 return claimsIdentity;
             }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using MarketplaceBackend.Data;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +16,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidIssuer = AuthOptions.ISSUER,
+        ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer"),
         ValidateAudience = true,
-        ValidAudience = AuthOptions.AUDIENCE,
+        ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience"),
         ValidateLifetime = true,
-        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(
+            builder.Configuration.GetValue<string>("Jwt:Key"))),
         ValidateIssuerSigningKey = true,
     };
 });
