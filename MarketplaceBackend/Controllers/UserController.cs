@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -25,6 +26,10 @@ namespace MarketplaceBackend.Controllers
         [HttpPost("/login")]
         public IActionResult Login([FromBody] UserLoginDto user)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var identity = GetIdentity(user.Email, user.Password);
             if (identity == null)
             {
@@ -74,6 +79,10 @@ namespace MarketplaceBackend.Controllers
         [HttpPost("/register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto user)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             if(_context.Users.Any(e=>e.Email==user.Email))
             {
                 return BadRequest(new { errorText = "User with this email already exists."});
