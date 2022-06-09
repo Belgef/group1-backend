@@ -1,6 +1,7 @@
 ﻿using MarketplaceBackend.Data;
 using MarketplaceBackend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -19,7 +20,7 @@ namespace MarketplaceBackend.Controllers
         }
 
         [HttpPost("/token")]
-        public IActionResult Token(string email, string password)
+        public IActionResult Token([FromForm]string email, [FromForm]string password)
         {
             var identity = GetIdentity(email, password);
             if (identity == null)
@@ -48,7 +49,7 @@ namespace MarketplaceBackend.Controllers
 
         private ClaimsIdentity GetIdentity(string email, string password)
         {
-            User user = _context.Users.FirstOrDefault(x => x.Email == email && x.Password == password);
+            User user = _context.Users.Include(e=>e.Role).FirstOrDefault(x => x.Email == email && x.Password == password);
             if (user != null)
             {
                 List<Claim> claims = new(){
