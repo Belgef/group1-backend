@@ -50,6 +50,7 @@ namespace MarketplaceBackend.Controllers
             if (user != null)
             {
                 List<Claim> claims = new(){
+                    new("user_id", user.Id.ToString()),
                     new(ClaimsIdentity.DefaultNameClaimType, user.Email),
                     new(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
                 };
