@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MarketplaceBackend.Data;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,7 +60,8 @@ builder.Services.AddSwaggerGen(c =>
                     {securityScheme, Array.Empty<string>()}
                 });
 
-
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
 builder.Services.AddDbContext<DataContext>(options =>

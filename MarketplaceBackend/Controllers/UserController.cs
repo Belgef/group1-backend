@@ -23,6 +23,12 @@ namespace MarketplaceBackend.Controllers
             _config = configuration;
         }
 
+        /// <summary>
+        /// Returns JWT Token
+        /// </summary>
+        /// <returns>Created JWT Token</returns>
+        /// <response code="200">Returns the newly created JWT Token</response>
+        /// <response code="400">If user with entered credentials does not exist</response>
         [HttpPost("/login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDto user)
         {
@@ -77,7 +83,11 @@ namespace MarketplaceBackend.Controllers
                 ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             return claimsIdentity;
         }
-        
+
+        /// <summary>
+        /// Register user
+        /// </summary>
+        /// <response code="400">If entered credentials are invalid</response>
         [HttpPost("/register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto user)
         {
