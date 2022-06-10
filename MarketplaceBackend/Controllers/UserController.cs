@@ -24,13 +24,13 @@ namespace MarketplaceBackend.Controllers
         }
 
         [HttpPost("/login")]
-        public IActionResult Login([FromBody] UserLoginDto user)
+        public async Task<IActionResult> Login([FromBody] UserLoginDto user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var identity = GetIdentity(user.Email, user.Password);
+            var identity = await GetIdentityAsync(user.Email, user.Password);
             if (identity == null)
             {
                 return BadRequest(new { errorText = "Invalid email or password." });
@@ -57,23 +57,25 @@ namespace MarketplaceBackend.Controllers
             };
             return Ok(response);
         }
-        private ClaimsIdentity GetIdentity(string email, string password)
+        private async Task<ClaimsIdentity> GetIdentityAsync(string email, string password)
         {
-            User user = _context.Users.ToList().FirstOrDefault(x => x.Email == email && PasswordEncoder.ValidatePassword(password, x.Hash, x.Salt));
-            if (user != null)
-            {
-                List<Claim> claims = new(){
-                    new("user_id", user.Id.ToString()),
-                    new("fname", user.FirstName),
-                    new("lname", user.LastName),
-                    new(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                    new(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString())
-                };
-                ClaimsIdentity claimsIdentity = new(claims, "Token",
-                    ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-                return claimsIdentity;
-            }
-            return null;
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            if (user == null)
+                return null;
+
+            if (!PasswordEncoder.ValidatePassword(password, user.Hash, user.Salt))
+                return null;
+            
+            List<Claim> claims = new(){
+                new("user_id", user.Id.ToString()),
+                new("fname", user.FirstName),
+                new("lname", user.LastName),
+                new(ClaimsIdentity.DefaultNameClaimType, user.Email),
+                new(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString())
+            };
+            ClaimsIdentity claimsIdentity = new(claims, "Token",
+                ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            return claimsIdentity;
         }
         
         [HttpPost("/register")]
