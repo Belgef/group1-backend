@@ -4,7 +4,7 @@ namespace MarketplaceBackend.Services
 {
     public interface IIdentityService
     {
-        Task<AuthenticationResult> RegisterAsync(string email, string password);
+        Task<AuthenticationResult> RegisterAsync(UserRegistrationRequest user);
         Task<AuthenticationResult> LoginAsync(string email, string password);
     }
 }

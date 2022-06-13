@@ -5,8 +5,18 @@ using MarketplaceBackend.Data;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using MarketplaceBackend.Helpers;
+using MarketplaceBackend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var authSettings = new AuthSettings();
+builder.Configuration.Bind(nameof(AuthSettings), authSettings);
+builder.Services.AddSingleton(authSettings);
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -17,17 +27,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer"),
+        ValidIssuer = authSettings.Issuer,
         ValidateAudience = true,
-        ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience"),
+        ValidAudience = authSettings.Audience,
         ValidateLifetime = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(
-            builder.Configuration.GetValue<string>("Jwt:Key"))),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(authSettings.Key)),
         ValidateIssuerSigningKey = true,
     };
 });
-
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

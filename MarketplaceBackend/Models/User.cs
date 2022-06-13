@@ -13,5 +13,6 @@ namespace MarketplaceBackend.Models
         public string Hash { get; set; }
         public string Salt { get; set; }
         public Role Role { get; set; }
+        public string AvatarUrl { get; set; }
     }
 }
