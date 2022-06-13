@@ -1,4 +1,5 @@
-﻿using MarketplaceBackend.Data;
+﻿using MarketplaceBackend.Contracts.V1.Requests.Identity;
+using MarketplaceBackend.Data;
 using MarketplaceBackend.Helpers;
 using MarketplaceBackend.Models;
 using Microsoft.EntityFrameworkCore;

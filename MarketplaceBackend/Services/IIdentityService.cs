@@ -1,4 +1,5 @@
-﻿using MarketplaceBackend.Models;
+﻿using MarketplaceBackend.Contracts.V1.Requests.Identity;
+using MarketplaceBackend.Models;
 
 namespace MarketplaceBackend.Services
 {

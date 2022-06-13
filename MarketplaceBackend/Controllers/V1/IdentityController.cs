@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
+using MarketplaceBackend.Contracts.V1.Requests.Identity;
 using MarketplaceBackend.Contracts.V1.Responses.Identity;
-using MarketplaceBackend.Data;
-using MarketplaceBackend.Models;
 using MarketplaceBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
