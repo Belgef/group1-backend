@@ -1,4 +1,5 @@
-﻿using MarketplaceBackend.Models;
+﻿using MarketplaceBackend.Helpers;
+using MarketplaceBackend.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketplaceBackend.Data

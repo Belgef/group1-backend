@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Cryptography;
 
-namespace MarketplaceBackend
+namespace MarketplaceBackend.Helpers
 {
     public static class PasswordEncoder
     {

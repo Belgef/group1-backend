@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MarketplaceBackend.Models
+namespace MarketplaceBackend.Contracts.V1.Requests.Identity
 {
-    public class UserRegisterDto
+    public class UserRegistrationRequest
     {
         [Required]
         [StringLength(20)]

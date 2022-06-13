@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MarketplaceBackend.Models
+namespace MarketplaceBackend.Contracts.V1.Requests.Identity
 {
-    public class UserLoginDto
+    public class UserLoginRequest
     {
         [Required]
         [EmailAddress]

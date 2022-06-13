@@ -12,7 +12,7 @@ namespace MarketplaceBackend.Controllers
         [HttpGet]
         public IActionResult Hello()
         {
-            return Ok(new {message="Hello, " + User.Claims.First(e=>e.Type=="fname") });
+            return Ok(new {message="Hello, " + User.Claims.First(e=>e.Type=="fname").Value });
         }
     }
 }
