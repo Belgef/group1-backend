@@ -2,7 +2,7 @@
 
 namespace MarketplaceBackend.Models
 {
-    public class UserLoginDto
+    public class UserLoginRequest
     {
         [Required]
         [EmailAddress]

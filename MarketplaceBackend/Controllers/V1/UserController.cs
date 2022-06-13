@@ -1,4 +1,5 @@
-﻿using MarketplaceBackend.Data;
+﻿using MarketplaceBackend.Contracts.V1.Responses.Identity;
+using MarketplaceBackend.Data;
 using MarketplaceBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,7 @@ namespace MarketplaceBackend.Controllers
         /// <response code="200">Returns the newly created JWT Token</response>
         /// <response code="400">If user with entered credentials does not exist</response>
         [HttpPost("/login")]
-        public async Task<IActionResult> Login([FromBody] UserLoginDto user)
+        public async Task<ActionResult<AuthSuccessResponse>> Login([FromBody] UserLoginRequest user)
         {
             if (!ModelState.IsValid)
             {
@@ -89,7 +90,7 @@ namespace MarketplaceBackend.Controllers
         /// </summary>
         /// <response code="400">If entered credentials are invalid</response>
         [HttpPost("/register")]
-        public async Task<IActionResult> Register([FromBody] UserRegisterDto user)
+        public async Task<ActionResult<AuthSuccessResponse>> Register([FromBody] UserRegistrationRequest user)
         {
             if(!ModelState.IsValid)
             {

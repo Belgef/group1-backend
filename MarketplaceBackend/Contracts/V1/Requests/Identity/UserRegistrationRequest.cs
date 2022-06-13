@@ -2,7 +2,7 @@
 
 namespace MarketplaceBackend.Models
 {
-    public class UserRegisterDto
+    public class UserRegistrationRequest
     {
         [Required]
         [StringLength(20)]
