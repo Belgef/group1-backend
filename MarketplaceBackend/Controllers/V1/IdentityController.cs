@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MarketplaceBackend.Contracts.V1;
 using MarketplaceBackend.Contracts.V1.Requests.Identity;
 using MarketplaceBackend.Contracts.V1.Responses.Identity;
 using MarketplaceBackend.Services;
@@ -7,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace MarketplaceBackend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class IdentityController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -25,7 +25,7 @@ namespace MarketplaceBackend.Controllers
         /// <returns>Created JWT Token</returns>
         /// <response code="200">Returns user's data and generated JWT Token</response>
         /// <response code="400">Returns array of errors</response>
-        [HttpPost("/login")]
+        [HttpPost(ApiRoutes.Identity.Login)]
         public async Task<ActionResult<AuthSuccessResponse>> Login([FromBody] UserLoginRequest request)
         {
             if (!ModelState.IsValid)
@@ -54,7 +54,7 @@ namespace MarketplaceBackend.Controllers
         /// </summary>
         /// <response code="200">Returns user's data and generated JWT Token</response>
         /// <response code="400">Returns array of errors</response>
-        [HttpPost("/register")]
+        [HttpPost(ApiRoutes.Identity.Register)]
         public async Task<ActionResult<AuthSuccessResponse>> Register([FromBody] UserRegistrationRequest request)
         {
             if(!ModelState.IsValid)
