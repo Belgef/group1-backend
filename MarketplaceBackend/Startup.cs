@@ -30,6 +30,13 @@ public class Startup
 
         services.AddScoped<IIdentityService, IdentityService>();
 
+        services.AddSingleton<ICurrentUserService, CurrentUserService>();
+
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<IProductService, ProductService>();
+
+
         // Add services to the container.
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
@@ -87,6 +94,7 @@ public class Startup
         services.AddDbContext<DataContext>(options =>
         {
             options.UseNpgsql(Configuration.GetConnectionString("DeployConnection"));
+            //options.UseNpgsql(Configuration.GetConnectionString("LocalConnection"));
         });
     }
 
