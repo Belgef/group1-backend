@@ -9,12 +9,12 @@ namespace MarketplaceBackend.Services
     {
         Task<PaginatedList<ProductBriefResponse>> GetProductsAsync(GetAllProductsQuery request);
 
-        Task<bool> CreateProductAsync(Product Product);
+        Task<bool> CreateProductAsync(Product product);
 
-        Task<Product> GetProductByIdAsync(Guid ProductId);
+        Task<Product> GetProductByIdAsync(int productId);
 
-        Task<bool> UpdateProductAsync(Product ProductToUpdate);
+        Task<bool> UpdateProductAsync(Product productToUpdate);
 
-        Task<bool> DeleteProductAsync(Guid ProductId);
+        Task<bool> DeleteProductAsync(int productId);
     }
 }

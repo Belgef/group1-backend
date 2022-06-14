@@ -29,11 +29,16 @@ namespace MarketplaceBackend.Controllers.V1
             return Ok(response);
         }
 
-        //[HttpGet(ApiRoutes.Products.Get)]
-        //public async Task<ActionResult<ProductResponse>> Get(int id)
-        //{
-        //    return Ok();
-        //}
+        [HttpGet(ApiRoutes.Products.Get)]
+        public async Task<ActionResult<ProductResponse>> Get(int id)
+        {
+            var product = await _productService.GetProductByIdAsync(id);
+
+            if (product == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<ProductResponse>(product));
+        }
 
         //[HttpPost(ApiRoutes.Products.Create)]
         //public async Task<ActionResult<int>> Create(CreateProductRequest command)

@@ -38,22 +38,24 @@ namespace MarketplaceBackend.Services
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
 
-        public async Task<Product> GetProductByIdAsync(Guid ProductId)
+        public async Task<Product> GetProductByIdAsync(int productId)
+        {
+            return await _dataContext.Products
+                .Include(p => p.Category)
+                .SingleOrDefaultAsync(x => x.Id == productId);
+        }
+
+        public async Task<bool> CreateProductAsync(Product product)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<bool> CreateProductAsync(Product Product)
+        public async Task<bool> UpdateProductAsync(Product productToUpdate)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<bool> UpdateProductAsync(Product ProductToUpdate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> DeleteProductAsync(Guid ProductId)
+        public async Task<bool> DeleteProductAsync(int productId)
         {
             throw new NotImplementedException();
         }
