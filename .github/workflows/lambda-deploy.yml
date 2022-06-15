@@ -28,4 +28,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Deploy to Lambda
-      run: dotnet lambda deploy-serverless --stack-name qardish --s3-bucket qardish-s3 --region us-east-1
+      run: dotnet lambda deploy-serverless --stack-name qardish --s3-bucket qardish-s3 --region us-east-1 --template MarketplaceBackend/serverless.template
