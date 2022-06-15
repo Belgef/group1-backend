@@ -45,19 +45,47 @@ namespace MarketplaceBackend.Services
                 .SingleOrDefaultAsync(x => x.Id == productId);
         }
 
-        public async Task<bool> CreateProductAsync(Product product)
+        public async Task<int> CreateProductAsync(CreateProductRequest request)
         {
-            throw new NotImplementedException();
+            var product = new Product
+            {
+                Name = request.Name,
+                Price = request.Price,
+                Description = request.Description,
+                ExtraInformation = request.ExtraInformation,
+                CategoryId = request.CategoryId
+            };
+
+            await _dataContext.Products.AddAsync(product);
+
+            await _dataContext.SaveChangesAsync();
+
+            return product.Id;
+
         }
 
-        public async Task<bool> UpdateProductAsync(Product productToUpdate)
+        public async Task<bool> UpdateProductAsync(UpdateProductRequest request)
         {
-            throw new NotImplementedException();
+            var product = await GetProductByIdAsync(request.Id);
+            product.Name = request.Name;
+            product.Price = request.Price;
+            product.Description = request.Description;
+            product.ExtraInformation = request.ExtraInformation;
+            product.CategoryId = request.CategoryId;
+
+            var updated = await _dataContext.SaveChangesAsync();
+            return updated > 0;
         }
 
         public async Task<bool> DeleteProductAsync(int productId)
         {
-            throw new NotImplementedException();
+            var product = await GetProductByIdAsync(productId);
+            if (product == null)
+                return false;
+
+            _dataContext.Products.Remove(product);
+            var deleted = await _dataContext.SaveChangesAsync();
+            return deleted > 0;
         }
         
     }

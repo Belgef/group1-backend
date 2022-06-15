@@ -3,7 +3,9 @@ using MarketplaceBackend.Common.Pagination;
 using MarketplaceBackend.Contracts.V1;
 using MarketplaceBackend.Contracts.V1.Requests.Products;
 using MarketplaceBackend.Contracts.V1.Responses.Products;
+using MarketplaceBackend.Models;
 using MarketplaceBackend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketplaceBackend.Controllers.V1
@@ -40,31 +42,41 @@ namespace MarketplaceBackend.Controllers.V1
             return Ok(_mapper.Map<ProductResponse>(product));
         }
 
-        //[HttpPost(ApiRoutes.Products.Create)]
-        //public async Task<ActionResult<int>> Create(CreateProductRequest command)
-        //{
-        //    return Created();
-        //}
+        [Authorize(Roles = "Admin")]
+        [HttpPost(ApiRoutes.Products.Create)]
+        public async Task<ActionResult<int>> Create(CreateProductRequest request)
+        {
+            var id = await _productService.CreateProductAsync(request);
 
-        //[HttpPut(ApiRoutes.Products.Update)]
-        //public async Task<ActionResult> Update(int id, UpdateProductRequest command)
-        //{
-        //    if (id != command.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+            return Created(ApiRoutes.Products.Create + "/" + id, id);
+        }
 
-        //    await Mediator.Send(command);
+        [Authorize(Roles = "Admin")]
+        [HttpPut(ApiRoutes.Products.Update)]
+        public async Task<ActionResult> Update(int id, UpdateProductRequest request)
+        {
+            if (id != request.Id)
+            {
+                return BadRequest();
+            }
 
-        //    return NoContent();
-        //}
+            var updated = await _productService.UpdateProductAsync(request);
+            if (updated)
+                return NoContent();
 
-        //[HttpDelete(ApiRoutes.Products.Delete)]
-        //public async Task<ActionResult> Delete(int id)
-        //{
-        //    await Mediator.Send(new DeleteProductRequest { Id = id });
+            return NotFound();
+        }
 
-        //    return NoContent();
-        //}
+        [Authorize(Roles = "Admin")]
+        [HttpDelete(ApiRoutes.Products.Delete)]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var deleted = await _productService.DeleteProductAsync(id);
+
+            if (deleted)
+                return NoContent();
+
+            return NotFound();
+        }
     }
 }
