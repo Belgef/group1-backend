@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using MarketplaceBackend.Helpers;
 using MarketplaceBackend.Services;
+using MarketplaceBackend.Models;
 
 namespace MarketplaceBackend;
 
@@ -41,7 +42,7 @@ public class Startup
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
         {
-    // TODO: Remove for using HTTPS
+            // TODO: Remove for using HTTPS
             options.RequireHttpsMetadata = false;
             options.TokenValidationParameters = new TokenValidationParameters
             {
@@ -55,7 +56,9 @@ public class Startup
             };
         });
 
+        services.AddRazorPages();
         services.AddControllers();
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
@@ -93,8 +96,9 @@ public class Startup
 
         services.AddDbContext<DataContext>(options =>
         {
-            options.UseNpgsql(Configuration.GetConnectionString("DeployConnection"));
-            //options.UseNpgsql(Configuration.GetConnectionString("LocalConnection"));
+            //options.UseNpgsql(Configuration.GetConnectionString("DeployConnection"));
+            options.UseNpgsql(Configuration.GetConnectionString("LocalConnection"));
+
         });
     }
 
@@ -115,6 +119,12 @@ public class Startup
 
         app.UseAuthorization();
 
-        app.UseEndpoints(x => x.MapControllers());
+        app.UseEndpoints(x =>
+        {
+            x.MapControllers();
+            x.MapRazorPages();
+        });
+
+        app.UseStaticFiles();
     }
 }
