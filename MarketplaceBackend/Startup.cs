@@ -29,6 +29,7 @@ public class Startup
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<IFileService, S3FileService>();
 
         services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
