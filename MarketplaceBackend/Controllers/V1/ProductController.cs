@@ -24,6 +24,11 @@ namespace MarketplaceBackend.Controllers.V1
             _productService = productService;
         }
 
+        /// <summary>
+        /// Get filtered products
+        /// </summary>
+        /// <returns>List of products</returns>
+        /// <response code="200">Returns list of products and pagination info</response>
         [HttpGet(ApiRoutes.Products.GetAll)]
         public async Task<ActionResult<PaginatedList<ProductBriefResponse>>> Get([FromQuery] GetAllProductsQuery request)
         {
@@ -42,41 +47,41 @@ namespace MarketplaceBackend.Controllers.V1
             return Ok(_mapper.Map<ProductResponse>(product));
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost(ApiRoutes.Products.Create)]
-        public async Task<ActionResult<int>> Create(CreateProductRequest request)
-        {
-            var id = await _productService.CreateProductAsync(request);
+        //[Authorize(Roles = "Admin")]
+        //[HttpPost(ApiRoutes.Products.Create)]
+        //public async Task<ActionResult<int>> Create(CreateProductRequest request)
+        //{
+        //    var id = await _productService.CreateProductAsync(request);
 
-            return Created(ApiRoutes.Products.Create + "/" + id, id);
-        }
+        //    return Created(ApiRoutes.Products.Create + "/" + id, id);
+        //}
 
-        [Authorize(Roles = "Admin")]
-        [HttpPut(ApiRoutes.Products.Update)]
-        public async Task<ActionResult> Update(int id, UpdateProductRequest request)
-        {
-            if (id != request.Id)
-            {
-                return BadRequest();
-            }
+        //[Authorize(Roles = "Admin")]
+        //[HttpPut(ApiRoutes.Products.Update)]
+        //public async Task<ActionResult> Update(int id, UpdateProductRequest request)
+        //{
+        //    if (id != request.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var updated = await _productService.UpdateProductAsync(request);
-            if (updated)
-                return NoContent();
+        //    var updated = await _productService.UpdateProductAsync(request);
+        //    if (updated)
+        //        return NoContent();
 
-            return NotFound();
-        }
+        //    return NotFound();
+        //}
 
-        [Authorize(Roles = "Admin")]
-        [HttpDelete(ApiRoutes.Products.Delete)]
-        public async Task<ActionResult> Delete(int id)
-        {
-            var deleted = await _productService.DeleteProductAsync(id);
+        //[Authorize(Roles = "Admin")]
+        //[HttpDelete(ApiRoutes.Products.Delete)]
+        //public async Task<ActionResult> Delete(int id)
+        //{
+        //    var deleted = await _productService.DeleteProductAsync(id);
 
-            if (deleted)
-                return NoContent();
+        //    if (deleted)
+        //        return NoContent();
 
-            return NotFound();
-        }
+        //    return NotFound();
+        //}
     }
 }
