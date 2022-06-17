@@ -37,12 +37,6 @@
             @Html.DisplayFor(model => model.Product.ExtraInformation)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Product.SoldCount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Product.SoldCount)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Product.Category)
         </dt>
         <dd>
@@ -52,9 +46,12 @@
             @Html.DisplayNameFor(model => model.Product.ImageURL)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Product.ImageURL)
+            <a href=@Model.Product.ImageURL target="_blank">@Model.Product.ImageURL</a>
         </dd>
     </dl>
+    <a href=@Model.Product.ImageURL target="_blank">
+        <img src=@Model.Product.ImageURL style="max-width: 256px;" />
+    </a>
     
     <form method="post">
         <input type="hidden" asp-for="Product.Id" />

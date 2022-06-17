@@ -33,7 +33,8 @@ namespace MarketplaceBackend.Services
 						InputStream = newMemoryStream,
 						Key = name,
 						BucketName = _bucketName,
-						ContentType = file.ContentType
+						ContentType = file.ContentType,
+						CannedACL = S3CannedACL.PublicRead
 					};
 
 					var fileTransferUtility = new TransferUtility(_awsS3Client);

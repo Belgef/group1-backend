@@ -45,9 +45,12 @@
             @Html.DisplayNameFor(model => model.Product.ImageURL)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Product.ImageURL)
+            <a href=@Model.Product.ImageURL target="_blank">@Model.Product.ImageURL</a>
         </dd>
     </dl>
+    <a href=@Model.Product.ImageURL target="_blank">
+        <img src=@Model.Product.ImageURL style="max-width: 256px;" />
+    </a>
 </div>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Product.Id">Edit</a> |

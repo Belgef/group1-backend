@@ -7,12 +7,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MarketplaceBackend.Data;
 using MarketplaceBackend.Models;
-using Microsoft.AspNetCore.Authorization;
 using MarketplaceBackend.Services;
 
-namespace MarketplaceBackend.Pages.Admin.Products
+namespace MarketplaceBackend.Pages.Admin.Categories
 {
-    [Authorize]
     public class DeleteModel : PageModel
     {
         private readonly MarketplaceBackend.Data.DataContext _context;
@@ -25,7 +23,7 @@ namespace MarketplaceBackend.Pages.Admin.Products
         }
 
         [BindProperty]
-        public Product Product { get; set; }
+        public Category Category { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -34,10 +32,9 @@ namespace MarketplaceBackend.Pages.Admin.Products
                 return NotFound();
             }
 
-            Product = await _context.Products
-                .Include(p => p.Category).FirstOrDefaultAsync(m => m.Id == id);
+            Category = await _context.Categories.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Product == null)
+            if (Category == null)
             {
                 return NotFound();
             }
@@ -51,12 +48,12 @@ namespace MarketplaceBackend.Pages.Admin.Products
                 return NotFound();
             }
 
-            Product = await _context.Products.FindAsync(id);
+            Category = await _context.Categories.FindAsync(id);
 
-            if (Product != null)
+            if (Category != null)
             {
-                await _fileService.DeleteFileAsync($"product_{Product.Id}");
-                _context.Products.Remove(Product);
+                await _fileService.DeleteFileAsync($"category_{Category.Id}");
+                _context.Categories.Remove(Category);
                 await _context.SaveChangesAsync();
             }
 

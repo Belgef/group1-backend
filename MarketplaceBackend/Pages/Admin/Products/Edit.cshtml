@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Product.Id" />
             <div class="form-group">
@@ -39,9 +39,12 @@
                 <select asp-for="Product.CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
                 <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
             </div>
+            <a href=@Model.Product.ImageURL target="_blank">
+                <img src=@Model.Product.ImageURL style="max-width: 256px;" />
+            </a>
             <div class="form-group">
-                <label asp-for="Product.ImageURL" class="control-label"></label>
-                <input asp-for="Product.ImageURL" class="form-control" />
+                <label asp-for="FormFile" class="control-label"></label>
+                <input asp-for="FormFile" class="form-control" type="file" />
                 <span asp-validation-for="Product.ImageURL" class="text-danger"></span>
             </div>
             <div class="form-group">

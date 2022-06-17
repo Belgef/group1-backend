@@ -10,7 +10,7 @@ using MarketplaceBackend.Models;
 using MarketplaceBackend.Services;
 using System.ComponentModel.DataAnnotations;
 
-namespace MarketplaceBackend.Pages.Admin.Products
+namespace MarketplaceBackend.Pages.Admin.Categories
 {
     public class CreateModel : PageModel
     {
@@ -27,12 +27,11 @@ namespace MarketplaceBackend.Pages.Admin.Products
 
         public IActionResult OnGet()
         {
-        ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
             return Page();
         }
 
         [BindProperty]
-        public Product Product { get; set; }
+        public Category Category { get; set; }
 
         [Required]
         [BindProperty]
@@ -46,12 +45,12 @@ namespace MarketplaceBackend.Pages.Admin.Products
                 return Page();
             }
 
-            _context.Products.Add(Product);
+            _context.Categories.Add(Category);
             await _context.SaveChangesAsync();
 
-            await _fileService.UploadFileAsync(FormFile, $"product_{Product.Id}");
+            await _fileService.UploadFileAsync(FormFile, $"category_{Category.Id}");
 
-            Product.ImageURL = $"https://{_configuration.GetValue<string>("AWS:BucketName")}.s3.amazonaws.com/product_{Product.Id}";
+            Category.ImageURL = $"https://{_configuration.GetValue<string>("AWS:BucketName")}.s3.amazonaws.com/category_{Category.Id}";
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

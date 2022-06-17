@@ -23,12 +23,18 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Qardish Marketplace</a>
             </div>
             <div class="navbar-collapse collapse">
-                <partial name="_LoginPartial" />
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-page="/admin/products">Admin</a>
+                        <a class="nav-link text-dark btn btn-link" asp-page="/admin/products/index">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark btn btn-link" asp-page="/admin/categories/index">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark btn btn-link" asp-page="/admin/users/index">Users</a>
                     </li>
                 </ul>
+                <partial name="_LoginPartial" />
             </div>
         </div>
     </nav>

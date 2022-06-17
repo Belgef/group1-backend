@@ -10,7 +10,7 @@ using MarketplaceBackend.Data;
 using MarketplaceBackend.Models;
 using MarketplaceBackend.Services;
 
-namespace MarketplaceBackend.Pages.Admin.Products
+namespace MarketplaceBackend.Pages.Admin.Categories
 {
     public class EditModel : PageModel
     {
@@ -26,7 +26,7 @@ namespace MarketplaceBackend.Pages.Admin.Products
         }
 
         [BindProperty]
-        public Product Product { get; set; }
+        public Category Category { get; set; }
 
         [BindProperty]
         public IFormFile FormFile { get; set; }
@@ -38,14 +38,12 @@ namespace MarketplaceBackend.Pages.Admin.Products
                 return NotFound();
             }
 
-            Product = await _context.Products
-                .Include(p => p.Category).FirstOrDefaultAsync(m => m.Id == id);
+            Category = await _context.Categories.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Product == null)
+            if (Category == null)
             {
                 return NotFound();
             }
-           ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
             return Page();
         }
 
@@ -56,18 +54,17 @@ namespace MarketplaceBackend.Pages.Admin.Products
                 return Page();
             }
 
-            _context.Attach(Product).State = EntityState.Modified;
-            Product.ImageURL = $"https://{_configuration.GetValue<string>("AWS:BucketName")}.s3.amazonaws.com/product_{Product.Id}";
+            _context.Attach(Category).State = EntityState.Modified;
+            Category.ImageURL = $"https://{_configuration.GetValue<string>("AWS:BucketName")}.s3.amazonaws.com/category_{Category.Id}";
             if (FormFile is not null)
-                await _fileService.UploadFileAsync(FormFile, $"product_{Product.Id}");
-
+                await _fileService.UploadFileAsync(FormFile, $"category_{Category.Id}");
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(Product.Id))
+                if (!CategoryExists(Category.Id))
                 {
                     return NotFound();
                 }
@@ -80,9 +77,9 @@ namespace MarketplaceBackend.Pages.Admin.Products
             return RedirectToPage("./Index");
         }
 
-        private bool ProductExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Categories.Any(e => e.Id == id);
         }
     }
 }
