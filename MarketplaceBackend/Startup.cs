@@ -39,6 +39,8 @@ public class Startup
 
         services.AddScoped<IProductService, ProductService>();
 
+        services.AddScoped<ICategoryService, CategoryService>();
+
 
         // Add services to the container.
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -105,8 +107,8 @@ public class Startup
 
         services.AddDbContext<DataContext>(options =>
         {
-            //options.UseNpgsql(Configuration.GetConnectionString("DeployConnection"));
-            options.UseNpgsql(Configuration.GetConnectionString("LocalConnection"));
+            options.UseNpgsql(Configuration.GetConnectionString("DeployConnection"));
+            //options.UseNpgsql(Configuration.GetConnectionString("LocalConnection"));
 
         });
     }
