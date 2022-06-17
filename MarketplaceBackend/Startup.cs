@@ -8,6 +8,7 @@ using System.Reflection;
 using MarketplaceBackend.Helpers;
 using MarketplaceBackend.Services;
 using MarketplaceBackend.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MarketplaceBackend;
 
@@ -56,8 +57,15 @@ public class Startup
             };
         });
 
-        services.AddRazorPages();
         services.AddControllers();
+
+        services.AddRazorPages(options =>
+        {
+            options.Conventions.AuthorizeFolder("/Admin");
+        });
+
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
@@ -112,6 +120,12 @@ public class Startup
         }
 
         app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseCookiePolicy(new CookiePolicyOptions()
+        {
+            MinimumSameSitePolicy = SameSiteMode.Strict
+        });
 
         app.UseAuthentication();
 
@@ -125,6 +139,5 @@ public class Startup
             x.MapRazorPages();
         });
 
-        app.UseStaticFiles();
     }
 }

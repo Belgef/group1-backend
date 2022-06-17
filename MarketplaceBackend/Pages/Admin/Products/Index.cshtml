@@ -26,9 +26,6 @@
                 @Html.DisplayNameFor(model => model.Product[0].ExtraInformation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Product[0].SoldCount)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Product[0].Category)
             </th>
             <th>
@@ -53,10 +50,7 @@
                 @Html.DisplayFor(modelItem => item.ExtraInformation)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SoldCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Id)
+                @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ImageURL)
