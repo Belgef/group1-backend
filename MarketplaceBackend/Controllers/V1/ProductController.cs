@@ -46,42 +46,5 @@ namespace MarketplaceBackend.Controllers.V1
 
             return Ok(_mapper.Map<ProductResponse>(product));
         }
-
-        //[Authorize(Roles = "Admin")]
-        //[HttpPost(ApiRoutes.Products.Create)]
-        //public async Task<ActionResult<int>> Create(CreateProductRequest request)
-        //{
-        //    var id = await _productService.CreateProductAsync(request);
-
-        //    return Created(ApiRoutes.Products.Create + "/" + id, id);
-        //}
-
-        //[Authorize(Roles = "Admin")]
-        //[HttpPut(ApiRoutes.Products.Update)]
-        //public async Task<ActionResult> Update(int id, UpdateProductRequest request)
-        //{
-        //    if (id != request.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    var updated = await _productService.UpdateProductAsync(request);
-        //    if (updated)
-        //        return NoContent();
-
-        //    return NotFound();
-        //}
-
-        //[Authorize(Roles = "Admin")]
-        //[HttpDelete(ApiRoutes.Products.Delete)]
-        //public async Task<ActionResult> Delete(int id)
-        //{
-        //    var deleted = await _productService.DeleteProductAsync(id);
-
-        //    if (deleted)
-        //        return NoContent();
-
-        //    return NotFound();
-        //}
     }
 }

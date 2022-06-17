@@ -21,6 +21,11 @@
             public const string Create = Base + "/products";
         }
 
+        public static class Categories
+        {
+            public const string GetAll = Base + "/categories";
+        }
+
         public static class Identity
         {
             public const string Login = Base + "/identity/login";

@@ -39,6 +39,8 @@ public class Startup
 
         services.AddScoped<IProductService, ProductService>();
 
+        services.AddScoped<ICategoryService, CategoryService>();
+
 
         // Add services to the container.
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
