@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using MarketplaceBackend.Data;
 using MarketplaceBackend.Models;
 using MarketplaceBackend.Services;
+using System.Globalization;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace MarketplaceBackend.Pages.Admin.Products
 {
@@ -31,6 +34,11 @@ namespace MarketplaceBackend.Pages.Admin.Products
         [BindProperty]
         public IFormFile FormFile { get; set; }
 
+        [BindProperty]
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(14, 2)")]
+        public string PriceString { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -51,10 +59,13 @@ namespace MarketplaceBackend.Pages.Admin.Products
 
         public async Task<IActionResult> OnPostAsync()
         {
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+
+            Product.Price = decimal.Parse(PriceString.Replace(",", "."), CultureInfo.InvariantCulture);
 
             _context.Attach(Product).State = EntityState.Modified;
             Product.ImageURL = $"https://{_configuration.GetValue<string>("AWS:BucketName")}.s3.amazonaws.com/product_{Product.Id}";

@@ -6,7 +6,6 @@
 
         public string Name { get; set; }
 
-        // M2M
         public string ImageURL { get; set; }
 
     }

@@ -9,6 +9,8 @@ using MarketplaceBackend.Data;
 using MarketplaceBackend.Models;
 using MarketplaceBackend.Services;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 
 namespace MarketplaceBackend.Pages.Admin.Products
 {
@@ -38,6 +40,11 @@ namespace MarketplaceBackend.Pages.Admin.Products
         [BindProperty]
         public IFormFile FormFile { get; set; }
 
+        [BindProperty]
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(14, 2)")]
+        public string PriceString { get; set; }
+
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
@@ -45,6 +52,8 @@ namespace MarketplaceBackend.Pages.Admin.Products
             {
                 return Page();
             }
+
+            Product.Price = decimal.Parse(PriceString.Replace(",", "."), CultureInfo.InvariantCulture);
 
             _context.Products.Add(Product);
             await _context.SaveChangesAsync();

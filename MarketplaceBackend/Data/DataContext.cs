@@ -1,6 +1,7 @@
 ﻿using MarketplaceBackend.Helpers;
 using MarketplaceBackend.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace MarketplaceBackend.Data
 {
@@ -15,10 +16,6 @@ namespace MarketplaceBackend.Data
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<Cart> Carts { get; set; }
-
-        public DbSet<CartProduct> CartProducts { get; set; }
-
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<OrderProduct> OrderProducts { get; set; }
@@ -27,6 +24,10 @@ namespace MarketplaceBackend.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            base.OnModelCreating(modelBuilder);
+
             byte[] salt1 = PasswordEncoder.GenerateSalt(), salt2 = PasswordEncoder.GenerateSalt();
             string hash1 = PasswordEncoder.HashPassword("A12345", salt1);
             string hash2 = PasswordEncoder.HashPassword("U55555", salt2);
