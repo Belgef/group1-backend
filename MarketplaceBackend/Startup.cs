@@ -41,6 +41,8 @@ public class Startup
 
         services.AddScoped<ICategoryService, CategoryService>();
 
+        services.AddDataProtection()
+            .PersistKeysToAWSSystemsManager("/MarketplaceBackend/DataProtection");
 
         // Add services to the container.
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
