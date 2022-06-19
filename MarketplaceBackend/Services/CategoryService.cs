@@ -17,7 +17,7 @@ namespace MarketplaceBackend.Services
         {
             var query = _dataContext.Categories.AsNoTracking();
 
-            var ordered = await query.OrderBy(x => x.Name).ToListAsync();
+            var ordered = await query.OrderBy(x => x.Id).ToListAsync();
 
             return ordered;
         }
