@@ -38,7 +38,6 @@
   <ItemGroup>
     <Folder Include="Contracts\V1\Requests\Identity\Queries\" />
     <Folder Include="Data\" />
-    <Folder Include="Models\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 

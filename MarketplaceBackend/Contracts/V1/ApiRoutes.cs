@@ -26,6 +26,15 @@
             public const string GetAll = Base + "/categories";
         }
 
+        public static class Carousel
+        {
+            public const string GetAll = Base + "/carousel";
+
+            public const string Create = Base + "/carousel";
+
+            public const string Delete = Base + "/carousel/{id}";
+        }
+
         public static class Identity
         {
             public const string Login = Base + "/identity/login";
