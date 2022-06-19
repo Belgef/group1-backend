@@ -1,6 +1,8 @@
 ﻿using MarketplaceBackend.Contracts.V1;
 using MarketplaceBackend.Data;
 using MarketplaceBackend.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +31,7 @@ namespace MarketplaceBackend.Controllers.V1
             return Ok(response);
         }
 
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         //[HttpPost(ApiRoutes.Carousel.Create)]
         //public async Task<ActionResult<int>> Post(string url)
         //{
@@ -39,6 +42,7 @@ namespace MarketplaceBackend.Controllers.V1
         //    return carouselImage.Id;
         //}
 
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         //[HttpDelete(ApiRoutes.Carousel.Delete)]
         //public async Task<IActionResult> Delete(int id)
         //{

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketplaceBackend.Controllers
@@ -7,7 +8,7 @@ namespace MarketplaceBackend.Controllers
     [ApiController]
     public class SampleController : ControllerBase
     {
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         public IActionResult Hello()
         {
