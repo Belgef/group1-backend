@@ -30,7 +30,7 @@ namespace MarketplaceBackend.Services
             {
                 filtered = filtered.Where(x => x.CategoryId == request.CategoryId);
             }
-            filtered = string.IsNullOrWhiteSpace(request.Search) ? filtered : filtered.Where(x => x.Name.Contains(request.Search));
+            filtered = string.IsNullOrWhiteSpace(request.Search) ? filtered : filtered.Where(x => x.Name.ToLower().Contains(request.Search.ToLower()));
             var ordered = filtered.OrderBy(x => x.Name);
 
             return await ordered
