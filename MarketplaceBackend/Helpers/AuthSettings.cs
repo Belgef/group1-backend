@@ -9,5 +9,7 @@
         public string Key { get; set; }
 
         public TimeSpan TokenLifetime { get; set; }
+
+        public TimeSpan RefreshTokenLifetime { get; set; }
     }
 }

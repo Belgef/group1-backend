@@ -77,5 +77,39 @@ namespace MarketplaceBackend.Controllers
 
             return Ok(_mapper.Map<AuthSuccessResponse>(authResponse));
         }
+
+        /// <summary>
+        /// Refresh security token
+        /// </summary>
+        /// <response code="200">Returns new JWT token and refresh token</response>
+        /// <response code="400">Returns array of errors</response>
+        [HttpPost(ApiRoutes.Identity.RefreshToken)]
+        public async Task<IActionResult> RefreshToken(RefreshTokenRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest("Invalid client request");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = ModelState.Values.SelectMany(x => x.Errors, (_, error) => error.ErrorMessage)
+                });
+            }
+
+            var refreshTokenResponse = await _identityService.RefreshTokenAsync(request.Token, request.RefreshToken);
+
+            if (!refreshTokenResponse.Success)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = refreshTokenResponse.Errors
+                });
+            }
+
+            return Ok(_mapper.Map<RefreshTokenResponse>(refreshTokenResponse));
+        }
     }
 }
