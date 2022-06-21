@@ -37,9 +37,11 @@
 
         public static class Identity
         {
-            public const string Login = Base + "/identity/login";
+            public const string Login = Base + "/identity/signin";
 
-            public const string Register = Base + "/identity/register";
+            public const string Register = Base + "/identity/signup";
+
+            public const string RefreshToken = Base + "/identity/refreshtoken";
         }
     }
 }

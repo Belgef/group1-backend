@@ -8,6 +8,10 @@ namespace MarketplaceBackend.Contracts.V1.Responses.Identity
     {
         public string Token { get; set; }
 
+        public string RefreshToken { get; set; }
+
+        public DateTime TokenExpiryTime { get; set; }
+
         public string Email { get; set; }
 
         public string FirstName { get; set; }
@@ -20,6 +24,8 @@ namespace MarketplaceBackend.Contracts.V1.Responses.Identity
         {
             profile.CreateMap<AuthenticationResult, AuthSuccessResponse>()
                 .ForMember(d => d.Token, opt => opt.MapFrom(s => s.Token))
+                .ForMember(d => d.RefreshToken, opt => opt.MapFrom(s => s.User.RefreshToken))
+                .ForMember(d => d.TokenExpiryTime, opt => opt.MapFrom(s => s.TokenExpiryTime))
                 .ForMember(d => d.Email, opt => opt.MapFrom(s => s.User.Email))
                 .ForMember(d => d.FirstName, opt => opt.MapFrom(s => s.User.FirstName))
                 .ForMember(d => d.LastName, opt => opt.MapFrom(s => s.User.LastName))

@@ -7,5 +7,6 @@ namespace MarketplaceBackend.Services
     {
         Task<AuthenticationResult> RegisterAsync(UserRegistrationRequest user);
         Task<AuthenticationResult> LoginAsync(string email, string password);
+        Task<RefreshTokenResult> RefreshTokenAsync(string token, string refreshToken);
     }
 }

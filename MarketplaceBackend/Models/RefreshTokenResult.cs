@@ -1,12 +1,10 @@
 ﻿namespace MarketplaceBackend.Models
 {
-    public class AuthenticationResult
+    public class RefreshTokenResult
     {
         public string Token { get; set; }
 
-        public DateTime TokenExpiryTime { get; set; }
-
-        public User User { get; set; }
+        public string RefreshToken { get; set; }
 
         public bool Success { get; set; }
 
