@@ -14,7 +14,7 @@ namespace MarketplaceBackend.Data
 
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<CarouselImage> CarouselImages { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         public DbSet<Category> Categories { get; set; }
 
@@ -26,9 +26,9 @@ namespace MarketplaceBackend.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             byte[] salt1 = PasswordEncoder.GenerateSalt(), salt2 = PasswordEncoder.GenerateSalt();
             string hash1 = PasswordEncoder.HashPassword("A12345", salt1);

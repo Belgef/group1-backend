@@ -1,6 +1,6 @@
 ﻿namespace MarketplaceBackend.Models
 {
-    public class CarouselImage
+    public class Photo
     {
         public int Id { get; set; }
 

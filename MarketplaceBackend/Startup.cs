@@ -57,6 +57,7 @@ public class Startup
                 ValidateLifetime = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(authSettings.Key)),
                 ValidateIssuerSigningKey = true,
+                ClockSkew = TimeSpan.Zero
             };
         });
 
@@ -107,8 +108,8 @@ public class Startup
 
         services.AddDbContext<DataContext>(options =>
         {
-            options.UseNpgsql(Configuration.GetConnectionString("DeployConnection"));
-            //options.UseNpgsql(Configuration.GetConnectionString("LocalConnection"));
+            //options.UseNpgsql(Configuration.GetConnectionString("DeployConnection"));
+            options.UseNpgsql(Configuration.GetConnectionString("LocalConnection"));
 
         });
 

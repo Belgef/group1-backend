@@ -9,12 +9,12 @@ using Microsoft.EntityFrameworkCore;
 namespace MarketplaceBackend.Controllers.V1
 {
     [ApiController]
-    public class CarouselController : ControllerBase
+    public class PhotoController : ControllerBase
     {
         
         private readonly DataContext _dataContext;
 
-        public CarouselController(DataContext dataContext)
+        public PhotoController(DataContext dataContext)
         {
             _dataContext = dataContext;
         }
@@ -25,9 +25,9 @@ namespace MarketplaceBackend.Controllers.V1
         /// <returns>List of carousel images</returns>
         /// <response code="200">Returns list of images for carousel</response>
         [HttpGet(ApiRoutes.Carousel.GetAll)]
-        public async Task<ActionResult<List<CarouselImage>>> Get()
+        public async Task<ActionResult<List<Photo>>> Get()
         {
-            var response = await _dataContext.CarouselImages.AsNoTracking().ToListAsync();
+            var response = await _dataContext.Photos.AsNoTracking().ToListAsync();
             return Ok(response);
         }
 

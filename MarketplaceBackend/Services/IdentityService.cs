@@ -161,6 +161,7 @@ namespace MarketplaceBackend.Services
             var newRefreshToken = GenerateRefreshToken();
 
             user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.Add(_authSettings.RefreshTokenLifetime);
 
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
