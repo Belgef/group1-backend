@@ -3,6 +3,7 @@ using MarketplaceBackend.Common.Pagination;
 using MarketplaceBackend.Contracts.V1;
 using MarketplaceBackend.Contracts.V1.Requests.Products;
 using MarketplaceBackend.Contracts.V1.Responses.Products;
+using MarketplaceBackend.Data;
 using MarketplaceBackend.Models;
 using MarketplaceBackend.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +16,13 @@ namespace MarketplaceBackend.Controllers.V1
     {
         private readonly IMapper _mapper;
         private readonly IProductService _productService;
+        private readonly DataContext _dataContext;
 
-        public ProductController(IMapper mapper, IProductService productService)
+        public ProductController(IMapper mapper, IProductService productService, DataContext dataContext)
         {
             _mapper = mapper;
             _productService = productService;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -31,6 +34,7 @@ namespace MarketplaceBackend.Controllers.V1
         public async Task<ActionResult<PaginatedList<ProductBriefResponse>>> Get([FromQuery] GetAllProductsQuery request)
         {
             var response = await _productService.GetProductsAsync(request);
+
             return Ok(response);
         }
 
@@ -42,7 +46,10 @@ namespace MarketplaceBackend.Controllers.V1
             if (product == null)
                 return NotFound();
 
-            return Ok(_mapper.Map<ProductResponse>(product));
+            var response = _mapper.Map<ProductResponse>(product);
+            response.SoldCount = _dataContext.OrderProducts.Where(x => x.Id == id).Sum(x => x.Quantity);
+
+            return Ok(response);
         }
     }
 }

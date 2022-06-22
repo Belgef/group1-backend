@@ -14,10 +14,12 @@ namespace MarketplaceBackend.Controllers.V1
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly IProductService _productService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, IProductService productService)
         {
             _orderService = orderService;
+            _productService = productService;
         }
 
         /// <summary>
@@ -32,9 +34,22 @@ namespace MarketplaceBackend.Controllers.V1
             return Ok(response);
         }
 
+        /// <summary>
+        /// Create new order
+        /// </summary>
+        /// <returns>Created order info</returns>
+        /// <response code="200">Returns created order info</response>
         [HttpPost(ApiRoutes.Orders.Create)]
         public async Task<ActionResult<OrderBriefResponse>> Create([FromBody] CreateOrderRequest request)
         {
+            foreach (var orderProduct in request.OrderProducts)
+            {
+                if (await _productService.GetProductByIdAsync(orderProduct.ProductId) is null)
+                {
+                    return BadRequest();
+                }
+            }
+
             var response = await _orderService.CreateOrderAsync(request);
             return Ok(response);
         }

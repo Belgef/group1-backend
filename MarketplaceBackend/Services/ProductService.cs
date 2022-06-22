@@ -33,9 +33,10 @@ namespace MarketplaceBackend.Services
             filtered = string.IsNullOrWhiteSpace(request.Search) ? filtered : filtered.Where(x => x.Name.ToLower().Contains(request.Search.ToLower()));
             var ordered = filtered.OrderBy(x => x.Name);
 
-            return await ordered
-                .ProjectTo<ProductBriefResponse>(_mapper.ConfigurationProvider)
-                .PaginatedListAsync(request.PageNumber, request.PageSize);
+            var result = await ordered.ProjectTo<ProductBriefResponse>(_mapper.ConfigurationProvider).ToListAsync();
+            result.ForEach(product => { product.SoldCount = _dataContext.OrderProducts.Where(x => x.ProductId == product.Id).Sum(x => x.Quantity); });
+
+            return result.ToPaginatedList(request.PageNumber, request.PageSize);
         }
 
         public async Task<Product> GetProductByIdAsync(int productId)
