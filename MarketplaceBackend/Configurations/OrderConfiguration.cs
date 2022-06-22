@@ -13,6 +13,10 @@ namespace MarketplaceBackend.Configurations
             .OnDelete(DeleteBehavior.Restrict)
             .IsRequired();
 
+            builder.Property(t => t.OnDate)
+               .IsRequired()
+               .HasDefaultValueSql("now()");
+
             builder.HasMany(t => t.OrderProducts)
             .WithOne(t => t.Order)
             .IsRequired();

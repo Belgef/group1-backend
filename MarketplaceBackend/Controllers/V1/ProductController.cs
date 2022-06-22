@@ -15,11 +15,9 @@ namespace MarketplaceBackend.Controllers.V1
     {
         private readonly IMapper _mapper;
         private readonly IProductService _productService;
-        private readonly IIdentityService _identityService;
 
-        public ProductController(IIdentityService identityService, IMapper mapper, IProductService productService)
+        public ProductController(IMapper mapper, IProductService productService)
         {
-            _identityService = identityService;
             _mapper = mapper;
             _productService = productService;
         }

@@ -26,13 +26,13 @@
             public const string GetAll = Base + "/categories";
         }
 
-        public static class Carousel
+        public static class Photos
         {
-            public const string GetAll = Base + "/carousel";
+            public const string GetAll = Base + "/photos";
 
-            public const string Create = Base + "/carousel";
+            public const string Create = Base + "/photos";
 
-            public const string Delete = Base + "/carousel/{id}";
+            public const string Delete = Base + "/photos/{id}";
         }
 
         public static class Identity
@@ -42,6 +42,15 @@
             public const string Register = Base + "/identity/signup";
 
             public const string RefreshToken = Base + "/identity/refreshtoken";
+        }
+
+        public static class Orders
+        {
+            public const string GetAll = Base + "/orders";
+
+            public const string Create = Base + "/orders";
+
+            public const string Get = Base + "/orders/{id}";
         }
     }
 }

@@ -24,7 +24,7 @@ namespace MarketplaceBackend.Controllers.V1
         /// </summary>
         /// <returns>List of carousel images</returns>
         /// <response code="200">Returns list of images for carousel</response>
-        [HttpGet(ApiRoutes.Carousel.GetAll)]
+        [HttpGet(ApiRoutes.Photos.GetAll)]
         public async Task<ActionResult<List<Photo>>> Get()
         {
             var response = await _dataContext.Photos.AsNoTracking().ToListAsync();

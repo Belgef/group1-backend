@@ -11,16 +11,6 @@ namespace MarketplaceBackend.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public int? UserId
-        {
-            get
-            {
-                if (int.TryParse(_httpContextAccessor.HttpContext?.User?.FindFirstValue("id"), out int userId))
-                {
-                    return userId;
-                }
-                return null;
-            }
-        }
+        public int UserId => int.Parse(_httpContextAccessor.HttpContext?.User?.FindFirstValue("id"));
     }
 }
