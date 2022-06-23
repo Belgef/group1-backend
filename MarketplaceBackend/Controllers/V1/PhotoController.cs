@@ -32,26 +32,26 @@ namespace MarketplaceBackend.Controllers.V1
         }
 
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        //[HttpPost(ApiRoutes.Carousel.Create)]
+        //[HttpPost(ApiRoutes.Photos.Create)]
         //public async Task<ActionResult<int>> Post(string url)
         //{
-        //    var carouselImage = new CarouselImage { ImageURL = url };
+        //    var carouselImage = new Photo { ImageURL = url };
 
-        //    await _dataContext.CarouselImages.AddAsync(carouselImage);
+        //    await _dataContext.Photos.AddAsync(carouselImage);
         //    await _dataContext.SaveChangesAsync();
         //    return carouselImage.Id;
         //}
 
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        //[HttpDelete(ApiRoutes.Carousel.Delete)]
+        //[HttpDelete(ApiRoutes.Photos.Delete)]
         //public async Task<IActionResult> Delete(int id)
         //{
-        //    var carouselImage = await _dataContext.CarouselImages.FirstOrDefaultAsync(x => x.Id == id);
+        //    var carouselImage = await _dataContext.Photos.FirstOrDefaultAsync(x => x.Id == id);
 
         //    if (carouselImage is null)
         //        return NotFound();
 
-        //    _dataContext.CarouselImages.Remove(carouselImage);
+        //    _dataContext.Photos.Remove(carouselImage);
         //    await _dataContext.SaveChangesAsync();
 
         //    return NoContent();

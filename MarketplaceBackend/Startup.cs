@@ -111,7 +111,7 @@ public class Startup
 
         services.AddDbContext<DataContext>(options =>
         {
-            options.UseNpgsql(Configuration.GetConnectionString("DeployConnection"));
+            options.UseNpgsql(Configuration.GetConnectionString("DeployConnection"), providerOptions => providerOptions.EnableRetryOnFailure());
             //options.UseNpgsql(Configuration.GetConnectionString("LocalConnection"));
 
         });
