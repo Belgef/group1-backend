@@ -2,8 +2,6 @@
 {
     public class CreateOrderRequest
     {
-        public DateTime OnDate { get; set; }
-
         public IList<OrderProductDto> OrderProducts { get; set; } = new List<OrderProductDto>();
     }
 }

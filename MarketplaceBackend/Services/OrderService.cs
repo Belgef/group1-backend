@@ -13,11 +13,13 @@ namespace MarketplaceBackend.Services
         private readonly DataContext _dataContext;
         private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUserService;
-        public OrderService(IMapper mapper, DataContext dataContext, ICurrentUserService currentUserService)
+        private readonly IProductService _productService;
+        public OrderService(IMapper mapper, DataContext dataContext, ICurrentUserService currentUserService, IProductService productService)
         {
             _mapper = mapper;
             _dataContext = dataContext;
             _currentUserService = currentUserService;
+            _productService = productService;
         }
 
         public async Task<OrderBriefResponse> CreateOrderAsync(CreateOrderRequest request)
@@ -26,7 +28,7 @@ namespace MarketplaceBackend.Services
 
             var order = new Order
             {
-                OnDate = request.OnDate,
+                OnDate = DateTime.UtcNow,
                 UserId = userId
             };
 
@@ -36,7 +38,7 @@ namespace MarketplaceBackend.Services
                 {
                     Order = order,
                     ProductId = orderProductDto.ProductId,
-                    UnitPrice = orderProductDto.UnitPrice,
+                    UnitPrice = (await _productService.GetProductByIdAsync(orderProductDto.ProductId)).Price,
                     Quantity = orderProductDto.Quantity
                 };
                 order.OrderProducts.Add(orderProduct);
@@ -52,7 +54,9 @@ namespace MarketplaceBackend.Services
 
         public async Task<List<OrderBriefResponse>> GetOrdersAsync()
         {
-            var orders = await _dataContext.Orders.Where(o => o.UserId == _currentUserService.UserId).ToListAsync();
+            var orders = await _dataContext.Orders
+                .Include(o => o.OrderProducts)
+                .Where(o => o.UserId == _currentUserService.UserId).ToListAsync();
 
             return _mapper.Map<List<OrderBriefResponse>>(orders);
         }
