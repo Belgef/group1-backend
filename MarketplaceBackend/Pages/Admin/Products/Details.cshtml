@@ -30,12 +30,6 @@
             @Html.DisplayFor(model => model.Product.Description)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Product.ExtraInformation)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Product.ExtraInformation)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Product.Category)
         </dt>
         <dd>
@@ -47,10 +41,58 @@
         <dd>
             <a href=@Model.Product.ImageURL target="_blank">@Model.Product.ImageURL</a>
         </dd>
+        <dd>
+            <a href=@Model.Product.ImageURL target="_blank">
+                <img src=@Model.Product.ImageURL style="max-width: 256px;" />
+            </a>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.DetailsPictureURLPrimary)
+        </dt>
+        <dd>
+            <a href=@Model.Product.DetailsPictureURLPrimary target="_blank">@Model.Product.DetailsPictureURLPrimary</a>
+        </dd>
+        <dd>
+            <a href=@Model.Product.DetailsPictureURLPrimary target="_blank">
+                <img src=@Model.Product.DetailsPictureURLPrimary style="max-width: 256px;" />
+            </a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.DetailsTextPrimary)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Product.DetailsTextPrimary)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.DetailsPictureURLSecondary[0])
+        </dt>
+        <dd>
+            <a href=@Model.Product.DetailsPictureURLSecondary[0] target="_blank">@Model.Product.DetailsPictureURLSecondary[0]</a>
+        </dd>
+        <dd>
+            <a href=@Model.Product.DetailsPictureURLSecondary[0] target="_blank">
+                <img src=@Model.Product.DetailsPictureURLSecondary[0] style="max-width: 256px;" />
+            </a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.DetailsPictureURLSecondary[1])
+        </dt>
+        <dd>
+            <a href=@Model.Product.DetailsPictureURLSecondary[1] target="_blank">@Model.Product.DetailsPictureURLSecondary[1]</a>
+        </dd>
+        <dd>
+            <a href=@Model.Product.DetailsPictureURLSecondary[1] target="_blank">
+                <img src=@Model.Product.DetailsPictureURLSecondary[1] style="max-width: 256px;" />
+            </a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.DetailsTextSecondary)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Product.DetailsTextSecondary)
+        </dd>
     </dl>
-    <a href=@Model.Product.ImageURL target="_blank">
-        <img src=@Model.Product.ImageURL style="max-width: 256px;" />
-    </a>
 </div>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Product.Id">Edit</a> |

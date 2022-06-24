@@ -26,13 +26,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Product.Description" class="control-label"></label>
-                <input asp-for="Product.Description" class="form-control" />
+                <textarea asp-for="Product.Description" class="form-control" ></textarea>
                 <span asp-validation-for="Product.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.ExtraInformation" class="control-label">Extra Information</label>
-                <input asp-for="Product.ExtraInformation" class="form-control" />
-                <span asp-validation-for="Product.ExtraInformation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Product.CategoryId" class="control-label">Category</label>
@@ -43,9 +38,33 @@
                 <img src=@Model.Product.ImageURL style="max-width: 256px;" />
             </a>
             <div class="form-group">
-                <label asp-for="FormFile" class="control-label"></label>
-                <input asp-for="FormFile" class="form-control" type="file" />
+                <label asp-for="ProductImage" class="control-label"></label>
+                <input asp-for="ProductImage" class="form-control" type="file" />
                 <span asp-validation-for="Product.ImageURL" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DetailsPicturePrimary" class="control-label">Details primary picture</label>
+                <input asp-for="DetailsPicturePrimary" class="form-control" type="file" />
+                <span asp-validation-for="Product.DetailsPictureURLPrimary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.DetailsTextPrimary" class="control-label">Details primary text</label>
+                <textarea asp-for="Product.DetailsTextPrimary" class="form-control" ></textarea>
+                <span asp-validation-for="Product.DetailsTextPrimary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DetailsPictureSecondary1" class="control-label">Details secondary pictures</label>
+                <input asp-for="DetailsPictureSecondary1" class="form-control" type="file" />
+                <span asp-validation-for="Product.DetailsPictureURLSecondary" class="text-danger"></span>
+
+                <input asp-for="DetailsPictureSecondary2" class="form-control" type="file" />
+                <span asp-validation-for="Product.DetailsPictureURLSecondary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.DetailsTextSecondary" class="control-label">Details secondary text</label>
+                <textarea asp-for="Product.DetailsTextSecondary" class="form-control" ></textarea>
+                <span asp-validation-for="Product.DetailsTextSecondary" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

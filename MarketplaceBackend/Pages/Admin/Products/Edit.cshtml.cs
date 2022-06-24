@@ -17,11 +17,11 @@ namespace MarketplaceBackend.Pages.Admin.Products
 {
     public class EditModel : PageModel
     {
-        private readonly MarketplaceBackend.Data.DataContext _context;
+        private readonly DataContext _context;
         private readonly IFileService _fileService;
         private readonly IConfiguration _configuration;
 
-        public EditModel(MarketplaceBackend.Data.DataContext context, IFileService fileService, IConfiguration configuration)
+        public EditModel(DataContext context, IFileService fileService, IConfiguration configuration)
         {
             _context = context;
             _fileService = fileService;
@@ -32,7 +32,16 @@ namespace MarketplaceBackend.Pages.Admin.Products
         public Product Product { get; set; }
 
         [BindProperty]
-        public IFormFile FormFile { get; set; }
+        public IFormFile ProductImage { get; set; }
+
+        [BindProperty]
+        public IFormFile DetailsPicturePrimary { get; set; }
+
+        [BindProperty]
+        public IFormFile DetailsPictureSecondary1 { get; set; }
+
+        [BindProperty]
+        public IFormFile DetailsPictureSecondary2 { get; set; }
 
         [BindProperty]
         [DataType(DataType.Currency)]
@@ -53,7 +62,8 @@ namespace MarketplaceBackend.Pages.Admin.Products
             {
                 return NotFound();
             }
-           ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
+            PriceString = Product.Price.ToString();
             return Page();
         }
 
@@ -69,8 +79,25 @@ namespace MarketplaceBackend.Pages.Admin.Products
 
             _context.Attach(Product).State = EntityState.Modified;
             Product.ImageURL = $"https://{_configuration.GetValue<string>("AWS:BucketName")}.s3.amazonaws.com/product_{Product.Id}";
-            if (FormFile is not null)
-                await _fileService.UploadFileAsync(FormFile, $"product_{Product.Id}");
+            if (ProductImage is not null)
+                await _fileService.UploadFileAsync(ProductImage, $"product_{Product.Id}");
+
+            Product.DetailsPictureURLPrimary = Product.ImageURL + "_primary";
+            if (DetailsPicturePrimary is not null)
+            {
+                await _fileService.UploadFileAsync(DetailsPicturePrimary, $"product_{Product.Id}_primary");
+            }
+
+            Product.DetailsPictureURLSecondary = new[] {
+                Product.ImageURL + "_secondary1",
+                Product.ImageURL + "_secondary2"
+            };
+            if (DetailsPictureSecondary1 is not null && DetailsPictureSecondary2 is not null)
+            {
+                
+                await _fileService.UploadFileAsync(DetailsPictureSecondary1, $"product_{Product.Id}_secondary1");
+                await _fileService.UploadFileAsync(DetailsPictureSecondary2, $"product_{Product.Id}_secondary2");
+            }
 
             try
             {
