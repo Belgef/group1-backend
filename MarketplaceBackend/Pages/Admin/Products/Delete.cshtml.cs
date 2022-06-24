@@ -56,6 +56,9 @@ namespace MarketplaceBackend.Pages.Admin.Products
             if (Product != null)
             {
                 await _fileService.DeleteFileAsync($"product_{Product.Id}");
+                await _fileService.DeleteFileAsync($"product_{Product.Id}_primary");
+                await _fileService.DeleteFileAsync($"product_{Product.Id}_secondary1");
+                await _fileService.DeleteFileAsync($"product_{Product.Id}_secondary2");
                 _context.Products.Remove(Product);
                 await _context.SaveChangesAsync();
             }

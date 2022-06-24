@@ -53,7 +53,6 @@ namespace MarketplaceBackend.Services
                 Name = request.Name,
                 Price = request.Price,
                 Description = request.Description,
-                ExtraInformation = request.ExtraInformation,
                 CategoryId = request.CategoryId
             };
 
@@ -71,7 +70,7 @@ namespace MarketplaceBackend.Services
             product.Name = request.Name;
             product.Price = request.Price;
             product.Description = request.Description;
-            product.ExtraInformation = request.ExtraInformation;
+            //product.ExtraInformation = request.ExtraInformation;
             product.CategoryId = request.CategoryId;
 
             var updated = await _dataContext.SaveChangesAsync();

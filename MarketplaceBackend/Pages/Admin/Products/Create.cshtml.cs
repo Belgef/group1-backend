@@ -36,9 +36,17 @@ namespace MarketplaceBackend.Pages.Admin.Products
         [BindProperty]
         public Product Product { get; set; }
 
-        [Required]
         [BindProperty]
-        public IFormFile FormFile { get; set; }
+        public IFormFile ProductImage { get; set; }
+
+        [BindProperty]
+        public IFormFile DetailsPicturePrimary { get; set; }
+
+        [BindProperty]
+        public IFormFile DetailsPictureSecondary1 { get; set; }
+
+        [BindProperty]
+        public IFormFile DetailsPictureSecondary2 { get; set; }
 
         [BindProperty]
         [DataType(DataType.Currency)]
@@ -55,12 +63,25 @@ namespace MarketplaceBackend.Pages.Admin.Products
 
             Product.Price = decimal.Parse(PriceString.Replace(",", "."), CultureInfo.InvariantCulture);
 
-            _context.Products.Add(Product);
-            await _context.SaveChangesAsync();
-
-            await _fileService.UploadFileAsync(FormFile, $"product_{Product.Id}");
 
             Product.ImageURL = $"https://{_configuration.GetValue<string>("AWS:BucketName")}.s3.amazonaws.com/product_{Product.Id}";
+            if (ProductImage is not null)
+                await _fileService.UploadFileAsync(ProductImage, $"product_{Product.Id}");
+
+            Product.DetailsPictureURLPrimary = Product.ImageURL + "_primary";
+            if (ProductImage is not null)
+                await _fileService.UploadFileAsync(DetailsPicturePrimary, $"product_{Product.Id}_primary");
+
+            Product.DetailsPictureURLSecondary = new[] {
+                Product.ImageURL + "_secondary1",
+                Product.ImageURL + "_secondary2"
+            };
+            if (DetailsPictureSecondary1 is not null)
+                await _fileService.UploadFileAsync(DetailsPictureSecondary1, $"product_{Product.Id}_secondary1");
+            if (DetailsPictureSecondary2 is not null)
+                await _fileService.UploadFileAsync(DetailsPictureSecondary2, $"product_{Product.Id}_secondary2");
+
+            _context.Products.Add(Product);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
