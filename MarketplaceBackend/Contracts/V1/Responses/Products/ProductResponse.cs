@@ -13,10 +13,16 @@ namespace MarketplaceBackend.Contracts.V1.Responses.Products
 
         public string Description { get; set; }
 
-        public string ExtraInformation { get; set; }
-
         public int SoldCount { get; set; }
 
         public string ImageURL { get; set; }
+
+        public string DetailsPictureURLPrimary { get; set; }
+
+        public string[] DetailsPictureURLSecondary { get; set; }
+
+        public string DetailsTextPrimary { get; set; }
+
+        public string DetailsTextSecondary { get; set; }
     }
 }

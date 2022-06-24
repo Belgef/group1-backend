@@ -8,9 +8,11 @@
 
         public string Description { get; set; }
 
-        public string ExtraInformation { get; set; }
-
         public int CategoryId { get; set; }
+
+        //public string DetailsTextPrimary { get; set; }
+
+        //public string DetailsTextSecondary { get; set; }
 
         // public string ImageUrl { get; set; }
     }
